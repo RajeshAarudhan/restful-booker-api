@@ -28,20 +28,20 @@ jobs:
       - name: Send Email with Test Report
         uses: dawidd6/action-send-mail@v3
         with:
-    server_address: smtp.gmail.com
-    server_port: 587
-    username: ${{ secrets.EMAIL_USERNAME }}
-    password: ${{ secrets.EMAIL_PASSWORD }}
-    subject: 'Playwright Test Report'
-    to: 'rajeshkumara@nousinfo.com, smart.guye@gmail.com'
-    from: 'QA Bot <${{ secrets.EMAIL_USERNAME }}>'
-    secure: true
-    body: |
-      Hello Team,
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'Playwright Test Report'
+          to: 'rajeshkumara@nousinfo.com, smart.guye@gmail.com'
+          from: 'QA Bot <${{ secrets.EMAIL_USERNAME }}>'
+          secure: true
+          body: |
+            Hello Team,
 
-      Please find attached the latest Playwright test execution report.
+            Please find attached the latest Playwright test execution report.
 
-      Regards,
-      Rajesh Kumar A
-      Senior QA Automation
-    attachments: playwright-report.zip
+            Regards,
+            Rajesh Kumar A
+            Senior QA Automation
+          attachments: playwright-report.zip
