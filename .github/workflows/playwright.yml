@@ -17,8 +17,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests in parallel and headlessly
-        run: npx playwright test --workers=4 --headless
+      - name: Run Playwright tests in parallel
+        run: npx playwright test --workers=4
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
