@@ -10,7 +10,7 @@ const expectedSchema = require('../../data/schema');
 let token;
 
 test.describe('E2E Flow On Restful-Booker API', () => {
-  test.skip('Create → Get → Update → Delete Booking', async ({ request }) => {
+  test('Create → Get → Update → Delete Booking', async ({ request }) => {
     const api = new ApiClient(request);
 
     const tm = new TokenManager(request);
