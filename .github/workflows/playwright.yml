@@ -25,6 +25,9 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 30
+
+      - name: zip the report to local
+        run: zip -r playwright-report.zip playwright-report
       - name: Send Email with Test Report
         uses: dawidd6/action-send-mail@v3
         with:
