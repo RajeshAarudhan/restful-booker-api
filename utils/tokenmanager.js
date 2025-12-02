@@ -1,10 +1,14 @@
-import { credentials } from './env';
+// import { credentials } from './env';
+require('dotenv').config();
 
 export class TokenManager {
   constructor(request) {
     this.request = request;
     this.token = null;
-    this.expirytime = 10;
+    // this.expirytime = 10;
+    this.username = process.env.USERNAME;
+    this.password = process.env.PASSWORD;
+    this.tokenexpirysecs = Number(process.env.TOKEN_EXPIRY_SECS) || 3600;
   }
 
   async generateToken() {
@@ -12,14 +16,14 @@ export class TokenManager {
       'https://restful-booker.herokuapp.com/auth',
       {
         data: {
-          username: credentials.username,
-          password: credentials.password,
+          username: this.username,
+          password: this.password,
         },
       }
     );
     const respBody = await resp.json();
     this.token = respBody.token;
-    this.expirytime = Date.now() + credentials.tokenexpirysecs * 1000;
+    this.expirytime = Date.now() + this.tokenexpirysecs * 1000;
     // console.log('expiry time is ' + this.expirytime);
     return this.token;
   }
@@ -33,7 +37,7 @@ export class TokenManager {
     // console.log(this.expirytime);
 
     // Reusing the existing token if not expired
-    if (now < this.expirytime) {
+    if (this.token && now < this.expirytime) {
       console.log(' Using existing token');
       return this.token;
     }

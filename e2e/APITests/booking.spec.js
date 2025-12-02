@@ -16,7 +16,7 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     const tm = new TokenManager(request);
 
     token = await tm.getToken();
-    console.log('Newly generated token : ' + token);
+    console.log('Newly generated token : ', token);
 
     // Booking a room
     const createRes = await api.createBooking(bookingData.newBookingDetails);
