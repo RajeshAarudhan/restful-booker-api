@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-import { ApiClient } from '../../utils/apiClient';
+import { ApiClient } from '../../utils/bookingApi';
 import { TokenManager } from '../../utils/tokenmanager';
 import { schemaCheck } from '../../utils/schemaCheck';
 
@@ -19,7 +19,7 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     console.log('Newly generated token : ', token);
 
     // Booking a room
-    const createRes = await api.createBooking(bookingData.newBookingDetails);
+    const createRes = await api.bookReservation(bookingData.newBookingDetails);
     expect(createRes.ok()).toBeTruthy();
 
     // const { bookingid } = await createRes.json();
@@ -31,7 +31,7 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     console.log(bookingResp);
 
     // Verify the booked details
-    const getRes = await api.viewBookedDetails(bookingid);
+    const getRes = await api.verifyReservationDetails(bookingid);
     expect(getRes.ok()).toBeTruthy();
     const getResp = await getRes.json();
     console.log('Get response : ', getResp);
@@ -41,7 +41,7 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     schemaCheck(bookedResp, expectedSchema);
 
     //Update already booked details
-    const updateRes = await api.updateBookedDetails(
+    const updateRes = await api.updateReservedDetails(
       bookingid,
       token,
       bookingData.updateBookingDetails
@@ -54,7 +54,7 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     console.log('Updated response :', updated);
 
     // Verify the booked details after updating
-    const newUpdate = await api.viewBookedDetails(bookingid);
+    const newUpdate = await api.verifyReservationDetails(bookingid);
     expect(newUpdate.ok()).toBeTruthy();
     const newUpdatedResp = await newUpdate.json();
     console.log('New Updated response : ', newUpdatedResp);
@@ -66,17 +66,17 @@ test.describe('E2E Flow On Restful-Booker API', () => {
     schemaCheck(newUpdatedResp, expectedSchema);
 
     // 5. Delete Booking
-    const deleteRes = await api.deleteBooking(bookingid, token);
+    const deleteRes = await api.deleteReservation(bookingid, token);
     expect(deleteRes.status()).toBe(201);
 
     // 6. Verify and confirm the Deletion
-    const confirm = await api.viewBookedDetails(bookingid);
+    const confirm = await api.verifyReservationDetails(bookingid);
     expect(confirm.status()).toBe(404);
   });
 
   test('Negative scenario - without token', async ({ request }) => {
     const api = new ApiClient(request);
-    const create = await api.createBooking(bookingData.newBookingDetails);
+    const create = await api.bookReservation(bookingData.newBookingDetails);
     const { bookingid } = await create.json();
 
     const update = await request.put(`${api.baseUrl}/booking/${bookingid}`, {

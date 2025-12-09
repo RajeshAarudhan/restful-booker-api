@@ -4,15 +4,15 @@ export class ApiClient {
     this.baseUrl = 'https://restful-booker.herokuapp.com';
   }
 
-  async createBooking(data) {
+  async bookReservation(data) {
     return await this.request.post(`${this.baseUrl}/booking`, { data });
   }
 
-  async viewBookedDetails(id) {
+  async verifyReservationDetails(id) {
     return await this.request.get(`${this.baseUrl}/booking/${id}`);
   }
 
-  async updateBookedDetails(id, token, data) {
+  async updateReservedDetails(id, token, data) {
     return await this.request.put(`${this.baseUrl}/booking/${id}`, {
       data,
       headers: {
@@ -21,7 +21,7 @@ export class ApiClient {
     });
   }
 
-  async deleteBooking(id, token) {
+  async deleteReservation(id, token) {
     return await this.request.delete(`${this.baseUrl}/booking/${id}`, {
       headers: {
         Cookie: `token=${token}`,
